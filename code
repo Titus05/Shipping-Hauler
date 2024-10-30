@@ -1,0 +1,192 @@
+<html><head><base href="." />
+<title>Star Citizen Cargo Transport Registration</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(45deg, #1a1a2e, #16213e);
+    color: #e0e0e0;
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  }
+
+  h1 {
+    text-align: center;
+    color: #00a8ff;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px rgba(0,168,255,0.5);
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    color: #00a8ff;
+  }
+
+  select, input {
+    width: 100%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #00a8ff;
+    border-radius: 5px;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  select:focus, input:focus {
+    outline: none;
+    box-shadow: 0 0 5px #00a8ff;
+  }
+
+  .section {
+    background: rgba(0,0,0,0.2);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+
+  button {
+    width: 100%;
+    padding: 15px;
+    background: #00a8ff;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  button:hover {
+    background: #0084cc;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,168,255,0.3);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Star Citizen Cargo Transport Registration</h1>
+  
+  <form id="cargoForm">
+    <div class="section">
+      <div class="form-group">
+        <label>Starting Location:</label>
+        <select id="startLocation" required>
+          <option value="">Select Starting Location</option>
+          <option value="arcCorp">ArcCorp</option>
+          <option value="microTech">microTech</option>
+          <option value="crusader">Crusader</option>
+          <option value="hurston">Hurston</option>
+          <option value="delamar">Delamar</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Cargo Loading Details</h3>
+      <div class="form-group">
+        <label>Cargo Type:</label>
+        <select id="cargoType" required>
+          <option value="">Select Cargo Type</option>
+          <option value="titanium">Titanium</option>
+          <option value="diamond">Diamond</option>
+          <option value="laranite">Laranite</option>
+          <option value="agricium">Agricium</option>
+          <option value="medical">Medical Supplies</option>
+          <option value="waste">Waste</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Loading Location:</label>
+        <select id="loadingLocation" required>
+          <option value="">Select Loading Location</option>
+          <option value="portOlisar">Port Olisar</option>
+          <option value="grimHex">Grim HEX</option>
+          <option value="levski">Levski</option>
+          <option value="lorville">Lorville</option>
+          <option value="areaEighteen">Area 18</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>SCU Volume:</label>
+        <input type="number" id="scuVolume" min="1" max="1000" required>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Cargo Offloading Details</h3>
+      <div class="form-group">
+        <label>Offloading Location:</label>
+        <select id="offloadingLocation" required>
+          <option value="">Select Offloading Location</option>
+          <option value="portOlisar">Port Olisar</option>
+          <option value="grimHex">Grim HEX</option>
+          <option value="levski">Levski</option>
+          <option value="lorville">Lorville</option>
+          <option value="areaEighteen">Area 18</option>
+        </select>
+      </div>
+    </div>
+
+    <button type="submit">Submit Transport Registration</button>
+  </form>
+</div>
+
+<script>
+document.getElementById('cargoForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const formData = {
+    startLocation: document.getElementById('startLocation').value,
+    cargoType: document.getElementById('cargoType').value,
+    loadingLocation: document.getElementById('loadingLocation').value,
+    scuVolume: document.getElementById('scuVolume').value,
+    offloadingLocation: document.getElementById('offloadingLocation').value
+  };
+
+  // Validation
+  if (formData.loadingLocation === formData.offloadingLocation) {
+    alert('Loading and offloading locations cannot be the same!');
+    return;
+  }
+
+  if (formData.scuVolume <= 0 || formData.scuVolume > 1000) {
+    alert('Please enter a valid SCU volume between 1 and 1000');
+    return;
+  }
+
+  // Here you would typically send this data to a server
+  console.log('Transport Registration Submitted:', formData);
+  alert('Transport Registration Submitted Successfully!');
+  this.reset();
+});
+
+// Add dynamic cargo type validation
+document.getElementById('cargoType').addEventListener('change', function() {
+  const scuInput = document.getElementById('scuVolume');
+  if (this.value === 'diamond' || this.value === 'laranite') {
+    scuInput.max = "500";
+    scuInput.title = "Maximum 500 SCU for high-value cargo";
+  } else {
+    scuInput.max = "1000";
+    scuInput.title = "Maximum 1000 SCU for standard cargo";
+  }
+});
+</script>
+</body>
+</html>
